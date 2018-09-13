@@ -4,13 +4,16 @@
 
 ## 内置功能
 
-* [x] ES6 ~ ES8, ES Stage-0 语法和特性
-* [x] SASS
-* [x] CSS Modules
+* [x] 支持 ES6 ~ ES8, 以及部分 ES Stage-3 语法和特性
+* [x] [sanitize.css](https://github.com/csstools/sanitize.css) - 面向移动开发的默认样式重置
+* [x] SASS + [CSS Modules](https://github.com/css-modules/css-modules)
+* [x] React-Router v4+
+* [x] [axios](https://github.com/axios/axios) - 最流行的 Ajax 数据处理（内部使用 [tote-box](https://github.com/nicolaszhao/tote-box) 封装成 `axiosRequest`）
+* [x] [mockjs](http://mockjs.com/) - 开发环境智能 mock API 数据
 * [x] px2rem + flexible.js 修复版（之后会用 vw 版） ，参考 [postcss-px2rem](https://www.npmjs.com/package/postcss-px2rem), [px2rem](https://www.npmjs.com/package/px2rem)
 * [x] Autoprefixer
 * [x] [react-hot-loader](https://www.npmjs.com/package/react-hot-loader)
-* [x] webpack v4.0（已配置生产环境代码分离）
+* [x] webpack v4.0（已用 [webpack-config-zero](https://www.npmjs.com/package/webpack-config-zero) 封装成配置器）
 * [x] 代码提交 ESLint 自动审查
 
 ## 使用
@@ -57,28 +60,9 @@ npm run build
 
 ## 修改默认配置
 
-### 编译目标浏览器的代码
+### 编译转换目标浏览器的代码
 
-同时修改 `.babelrc` 和 `.browserslistrc`:
-
-```js
-"presets": [
-  [
-    "env",
-    {
-      "targets": {
-        "browsers": [
-        "> 1%",
-        "last 5 versions",
-        "ie 11"
-       ]
-      },
-      "modules": false,
-      "useBuiltIns": true
-    }
-  ]
-]
-```
+修改 `.browserslistrc`:
 
 ```shell
 # Browsers that we support
@@ -88,7 +72,7 @@ last 5 versions
 ie 11
 ```
 
-可参考：[babel-preset-env](https://babeljs.io/docs/en/babel-preset-env), [browserslist](https://github.com/ai/browserslist)
+可参考：[browserslist](https://github.com/ai/browserslist)
 
 ### 修改 px2rem 的初始值
 

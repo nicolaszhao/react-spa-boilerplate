@@ -64,10 +64,10 @@
     "react-dom": "^16.4.2",
     "react-loadable": "^5.5.0",
     "react-router-dom": "^4.3.1",
-    "react-tote-box": "^0.2.1",
+    "react-tote-box": "^0.2.2",
     "react-transition-group": "^2.4.0",
     "sanitize.css": "^7.0.3",
-    "tote-box": "^0.9.1",
+    "tote-box": "^0.9.19",
     "urijs": "^1.18.2",
     "whatwg-fetch": "^2.0.4"
   },

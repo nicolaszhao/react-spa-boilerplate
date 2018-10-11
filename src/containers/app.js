@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
-import cns from 'classnames';
 import { APP_BASE_URL } from 'config/base-url';
 import Home from './Home';
 import About from './About';
@@ -21,7 +20,7 @@ const NavItem = ({ label, to, activeOnlyWhenExact }) => (
 );
 
 const Container = () => (
-  <div className={cns('container', style.container)}>
+  <div className={style.container}>
     <div className={style.content}>
       <Switch>
         <Route

@@ -3,7 +3,7 @@ import { USER } from './urls';
 
 export default function mock() {
   Mock.setup({
-    timeout: '200-600'
+    timeout: '400-1000'
   });
 
   Mock.mock(USER, {
@@ -15,6 +15,8 @@ export default function mock() {
       county: '@county',
       city: '@city',
       email: '@email'
-    }
+    },
+    'status|-1-0': 0,
+    message: '@sentence'
   });
 }

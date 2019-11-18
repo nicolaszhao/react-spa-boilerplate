@@ -1,26 +1,28 @@
-import { axiosRequest as request } from 'tote-box';
-import { USER } from './urls';
+/* eslint-disable import/prefer-default-export */
+import Ajax from '@totebox/ajax';
+import { URLS } from './constants';
+
+// TODO: 调整为真实接口后需要删除 import 和 mock()
 import mock from './mock';
 
-const req = request({
-  timeout: 5000
-}, {
-  filterResponse(data) {
-    if (data.status === 0) {
-      return Promise.resolve(data.data);
-    }
+mock();
 
-    return Promise.reject(new Error(data.message || 'Server Error'));
+const ajax = Ajax({
+  timeout: 5000,
+  interceptors: {
+    response(data) {
+      if (data.status === 0) {
+        return Promise.reject(new Error(data.message || 'Server Error'));
+      }
+      return data.data;
+    },
+    error(err) {
+      err.message = `Request api error, url: ${err.config ? err.config.url : ''}, message: ${err.message}`;
+      return err;
+    },
   },
-  beautifyError(url, err) {
-    return new Error(`Request api error, url: ${url}, message: ${err.message}`);
-  }
 });
 
 export function fetchUser() {
-  return req.get(USER);
-}
-
-if (process.env.NODE_ENV === 'development') {
-  mock();  
+  return ajax.get(URLS.USER);
 }

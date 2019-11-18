@@ -1,0 +1,15 @@
+.container {
+  padding: 1em;
+}
+
+h1 {
+  margin-bottom: 1.2em;
+}
+
+.button {
+  text-decoration: underline;
+
+  &:after {
+    content: ' >';
+  }
+}

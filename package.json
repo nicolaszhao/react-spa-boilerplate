@@ -19,7 +19,7 @@
     "@hammal/cli-service": "^0.12.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.0.0",
-    "eslint-config-nicolaz": "^0.5.4",
+    "eslint-config-nicolaz": "^0.6.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "@totebox/ajax": "^0.13.2",
-    "@totebox/util": "^0.12.6",
     "core-js": "^3.4.1",
     "mockjs": "^1.1.0",
     "react": "^16.12.0",

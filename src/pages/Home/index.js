@@ -1,74 +1,100 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import * as api from '../../api';
 import style from './index.module.scss';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
+const userFetchReducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'FETCH_USER':
+      return { ...state, fetching: true };
+    case 'FETCH_USER_SUCCESS':
+      return {
+        ...state,
+        fetching: false,
+        data: payload,
+        error: null,
+      };
+    case 'FETCH_USER_FAILURE':
+      return {
+        ...state,
+        fetching: false,
+        error: payload,
+      };
+    default:
+      throw new Error();
+  }
+};
 
-    this.state = {
-      loading: false,
-      data: {},
-      error: null,
+const useUserFetch = (userId) => {
+  const [state, dispatch] = useReducer(userFetchReducer, {
+    fetching: false,
+    data: {},
+    error: null,
+  });
+
+  useEffect(() => {
+    let didCancel = false;
+
+    const fetchUser = async () => {
+      dispatch({ type: 'FETCH_USER' });
+      try {
+        const data = await api.fetchUser();
+        !didCancel && dispatch({ type: 'FETCH_USER_SUCCESS', payload: data });
+      } catch (err) {
+        !didCancel && dispatch({ type: 'FETCH_USER_FAILURE', payload: err });
+      }
     };
-  }
 
-  componentDidMount() {
-    this.fetchUser();
-  }
+    fetchUser();
 
-  async fetchUser() {
-    this.setState({ loading: true });
+    return () => {
+      didCancel = true;
+    };
+  }, [userId]);
 
-    try {
-      const data = await api.fetchUser();
-      this.setState({ data, error: null });
-    } catch (error) {
-      this.setState({ error });
-    }
+  return state;
+};
 
-    this.setState({ loading: false });
-  }
+const genUserId = () => Math.ceil(Math.random() * 100);
 
-  render() {
-    const { loading, data, error } = this.state;
+const Home = () => {
+  const [userId, setUserId] = useState(genUserId());
+  const { fetching, data, error } = useUserFetch(userId);
 
-    return (
-      <div className={style.container}>
-        <h2>Home</h2>
-        <section className={style.profile}>
-          <h3>User Profile</h3>
-          {loading && <span className="loading">Loading...</span>}
-          <dl>
-            {Object.keys(data).map((field) => (
-              <React.Fragment key={field}>
-                <dt>
-                  {field}
-                  :
-                </dt>
-                <dd>{data[field]}</dd>
-              </React.Fragment>
-            ))}
-          </dl>
-          {error && (
-            <p className={style.error}>
-              <strong>Error:</strong>
-              {error.message}
-            </p>
-          )}
-          <footer className={style['profile-footer']}>
-            <button
-              type="button"
-              className="button"
-              onClick={() => this.fetchUser()}
-            >
-              Refresh
-            </button>
-          </footer>
-        </section>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={style.container}>
+      <h2>Home</h2>
+      <section className={style.profile}>
+        <h3>User Profile</h3>
+        {fetching && <span className="loading">Loading...</span>}
+        <dl>
+          {Object.keys(data).map((field) => (
+            <React.Fragment key={field}>
+              <dt>
+                {field}
+                :
+              </dt>
+              <dd>{data[field]}</dd>
+            </React.Fragment>
+          ))}
+        </dl>
+        {error && (
+          <p className={style.error}>
+            <strong>Error:</strong>
+            {error.message}
+          </p>
+        )}
+        <footer className={style['profile-footer']}>
+          <button
+            type="button"
+            className="button"
+            onClick={() => setUserId(genUserId())}
+          >
+            Refresh
+          </button>
+        </footer>
+      </section>
+    </div>
+  );
+};
 
 export default Home;

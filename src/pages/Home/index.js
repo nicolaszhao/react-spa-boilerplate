@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import * as api from '../../api';
 import style from './index.module.scss';
 
@@ -9,7 +8,7 @@ class Home extends Component {
 
     this.state = {
       loading: false,
-      data: null,
+      data: {},
       error: null,
     };
   }
@@ -36,41 +35,37 @@ class Home extends Component {
 
     return (
       <div className={style.container}>
-        <h1>Home</h1>
-        <section className={style.content}>
-          {loading && <span className={style.loading}>Loading...</span>}
-          {data && (
-            <dl className={style.profile}>
-              {Object.keys(data).map((field, i) => (
-                <React.Fragment key={`${i + 1}`}>
-                  <dt>{field}</dt>
-                  <dd>{data[field]}</dd>
-                </React.Fragment>
-              ))}
-            </dl>
-          )}
+        <h2>Home</h2>
+        <section className={style.profile}>
+          <h3>User Profile</h3>
+          {loading && <span className="loading">Loading...</span>}
+          <dl>
+            {Object.keys(data).map((field) => (
+              <React.Fragment key={field}>
+                <dt>
+                  {field}
+                  :
+                </dt>
+                <dd>{data[field]}</dd>
+              </React.Fragment>
+            ))}
+          </dl>
           {error && (
             <p className={style.error}>
+              <strong>Error:</strong>
               {error.message}
             </p>
           )}
+          <footer className={style['profile-footer']}>
+            <button
+              type="button"
+              className="button"
+              onClick={() => this.fetchUser()}
+            >
+              Refresh
+            </button>
+          </footer>
         </section>
-        <footer>
-          <ul>
-            <li>
-              <button
-                type="button"
-                className={style.button}
-                onClick={() => this.fetchUser()}
-              >
-                Refresh
-              </button>
-            </li>
-            <li>
-              <Link className={style.link} to="/about">to About</Link>
-            </li>
-          </ul>
-        </footer>
       </div>
     );
   }
